@@ -6,9 +6,10 @@ import os
 # import the libraries from model 
 # chestScanPrediction -- > the evaluation function
 # pred_info --> convert the index to json
-
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
