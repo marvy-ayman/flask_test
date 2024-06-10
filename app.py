@@ -71,7 +71,7 @@ def lung_upload():
     elif request.method == 'GET':
         return Response(
             response= json.dumps({
-                "result": info
+                "result": "info"
                 }))
     return {"message":f"{request.method}"}
 
