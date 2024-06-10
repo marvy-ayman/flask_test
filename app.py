@@ -27,10 +27,10 @@ def allowed_file(filename):
 
 @app.route('/api/upload', methods=['POST','GET'])
 def lung_upload():
-    #target = os.path.join(APP_ROOT, 'lung-images/')  #folder path
+    # target = os.path.join(APP_ROOT, 'lung-images/')  #folder path
 
-    #if not os.path.isdir(target):
-        #os.mkdir(target)     # create folder if not exits
+    # if not os.path.isdir(target):
+        # os.mkdir(target)     # create folder if not exits
 
     if request.method == 'POST':
         
@@ -52,7 +52,7 @@ def lung_upload():
             )
         if image and allowed_file(image.filename): 
             filename = secure_filename(image.filename)
-            #destination = "/".join([target, filename]) #/APP_ROOT/lung-images/something.jpg
+            # destination = "/".join([target, filename]) #/APP_ROOT/lung-images/something.jpg
             image.save('lung-images/'+filename)
             # save to database
             return Response(
@@ -73,6 +73,7 @@ def lung_upload():
             response= json.dumps({
                 "result": info
                 }))
+    return {"message":f"{request.method}"}
 
 # for test purposes 
 @app.route('/test',methods=['GET'])
