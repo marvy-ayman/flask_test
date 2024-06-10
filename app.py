@@ -6,10 +6,10 @@ import os
 # import the libraries from model 
 # chestScanPrediction -- > the evaluation function
 # pred_info --> convert the index to json
-from flask_cors import CORS
+# from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -55,7 +55,12 @@ def lung_upload():
             #destination = "/".join([target, filename]) #/APP_ROOT/lung-images/something.jpg
             image.save('lung-images/'+filename)
             # save to database
-            
+            return Response(
+               response = json.dumps(
+                   {"message":"done success cheers"}),
+               status = 200,
+               mimetype = 'application/json'
+            )
         else:
             return Response(
                response = json.dumps(
