@@ -3,13 +3,8 @@ from werkzeug.utils import secure_filename
 import os
 import json
 import tempfile
-# import the libraries from model 
-# chestScanPrediction -- > the evaluation function
-# pred_info --> convert the index to json
-# from flask_cors import CORS
 
 app = Flask(__name__)
-# CORS(app)
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -47,12 +42,34 @@ def lung_upload():
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)  # Ensure the folder exists
             image.save(image_path)
-            # save to database or further processing
-            return Response(
-                response=json.dumps({"message": "done success cheers"}),
-                status=200,
-                mimetype='application/json'
-            )
+            
+            # Process the image (e.g., save to database or further processing)
+            # Replace this with actual processing logic
+            processing_successful = True
+            
+            # Remove the image after processing
+            try:
+                os.remove(image_path)
+            except Exception as e:
+                app.logger.error('Error removing file: %s', e)
+                return Response(
+                    response=json.dumps({"message": f"Error removing file: {str(e)}"}),
+                    status=500,
+                    mimetype='application/json'
+                )
+            
+            if processing_successful:
+                return Response(
+                    response=json.dumps({"message": "done success cheers"}),
+                    status=200,
+                    mimetype='application/json'
+                )
+            else:
+                return Response(
+                    response=json.dumps({"message": "Processing failed"}),
+                    status=500,
+                    mimetype='application/json'
+                )
         else:
             return Response(
                 response=json.dumps({"message": "Allowed image types are -> png, jpg, jpeg, gif"}),
@@ -84,12 +101,16 @@ def not_found(error):
         mimetype='application/json'
     )
 
-@app.errorhandler(500) 
-def internal_error(error): 
-    app.logger.error('Server Error: %s', error) 
-    return Response( 
+
+@app.errorhandler(500)
+def internal_error(error):
+    app.logger.error('Server Error: %s', error)
+    return Response(
         response=json.dumps({"message": f"Internal server error : {error}"}),
-        status=500, 
-        mimetype='application/json' )
+        status=500,
+        mimetype='application/json'
+    )
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
