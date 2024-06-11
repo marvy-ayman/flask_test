@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, Response
 from werkzeug.utils import secure_filename
 import os
 import json
+import tempfile
 # import the libraries from model 
 # chestScanPrediction -- > the evaluation function
 # pred_info --> convert the index to json
