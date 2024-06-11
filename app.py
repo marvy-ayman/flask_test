@@ -83,6 +83,12 @@ def not_found(error):
         mimetype='application/json'
     )
 
-
+@app.errorhandler(500) 
+def internal_error(error): 
+    app.logger.error('Server Error: %s', error) 
+    return Response( 
+        response=json.dumps({"message": "Internal server error"}),
+        status=500, 
+        mimetype='application/json' )
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
