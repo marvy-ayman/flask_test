@@ -13,7 +13,7 @@ app = Flask(__name__)
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 app.secret_key = "secret key"
-app.config['UPLOAD_FOLDER'] = os.path.join(APP_ROOT, 'lung-images')
+app.config['UPLOAD_FOLDER'] = tempfile.gettempdir()
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -87,7 +87,7 @@ def not_found(error):
 def internal_error(error): 
     app.logger.error('Server Error: %s', error) 
     return Response( 
-        response=json.dumps({"message": f"Internal server error {error}"}),
+        response=json.dumps({"message": f"Internal server error : {error}"}),
         status=500, 
         mimetype='application/json' )
 if __name__ == "__main__":
