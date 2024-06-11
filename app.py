@@ -87,7 +87,7 @@ def not_found(error):
 def internal_error(error): 
     app.logger.error('Server Error: %s', error) 
     return Response( 
-        response=json.dumps({"message": "Internal server error"}),
+        response=json.dumps({"message": f"Internal server error {error}"}),
         status=500, 
         mimetype='application/json' )
 if __name__ == "__main__":
